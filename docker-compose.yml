@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  blog-platform:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chronicle-blog-platform
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - DATABASE_URL=file:./dev.db
+      - JWT_SECRET=production-grade-chronicle-secret-key-2026
+      - JWT_EXPIRES_IN=7d
+      - CLIENT_URL=http://localhost:5000
+    volumes:
+      - db-data:/app/server/prisma
+    restart: unless-stopped
+
+volumes:
+  db-data:
